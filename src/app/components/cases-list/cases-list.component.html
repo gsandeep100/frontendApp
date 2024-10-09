@@ -1,0 +1,59 @@
+<div
+  class="relative overflow-x-auto shadow-md rounded-md customTable h-max mt-5"
+>
+  <table class="w-full text-sm text-left">
+    <thead class="text-xs bg-gray-100">
+      <tr>
+        <th scope="col" class="px-6 py-3 whitespace-nowrap">Title</th>
+        <th scope="col" class="px-6 py-3 whitespace-nowrap">Case Number</th>
+        <th scope="col" class="px-6 py-3 whitespace-nowrap">Description</th>
+        <th scope="col" class="px-6 py-3 whitespace-nowrap">Status</th>
+        <th scope="col" class="px-6 py-3 whitespace-nowrap">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (items of caseList; track $index) {
+      <tr class="h-max bg-white border-b">
+        <td class="px-6 py-4 whitespace-nowrap">{{ items.title }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ items.caseNumber }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ items.description }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ items.status }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="flex items-center gap-2">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+              (click)="openChildModal('edit', items)"
+            >
+              Edit
+            </button>
+            <button
+              (click)="openChildModal('delete', items)"
+              class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+            >
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+      } @if(loading ) {
+      <tr class="h-max bg-white border-b">
+        <td colspan="5">
+          <div class="flex justify-center items-center h-20">
+            <div class="loader">Loading....</div>
+          </div>
+        </td>
+      </tr>
+      } @if(caseList.length === 0 && !loading) {
+      <tr class="h-max bg-white border-b">
+        <td colspan="5">
+          <div class="flex justify-center items-center h-20">
+            {{ error || "No Data Found" }}
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  <!-- Modal Component Usage with Dynamic Content -->
+  <app-modal [modalTitle]="modalTitle" [modalText]="modalText"></app-modal>
+</div>

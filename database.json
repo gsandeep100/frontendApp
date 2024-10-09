@@ -1,0 +1,25 @@
+{
+  "cases": [
+    {
+      "title": "fasd",
+      "caseNumber": "fsdafsad",
+      "description": "fsadf",
+      "status": "Closed",
+      "id": "1"
+    },
+    {
+      "id": "d6ab",
+      "title": "f312321",
+      "caseNumber": "23213",
+      "description": "fewrwe",
+      "status": "Open"
+    },
+    {
+      "id": "d001",
+      "title": "fsadf",
+      "caseNumber": "fsadf",
+      "description": "sadfasdf",
+      "status": "Open"
+    }
+  ]
+}

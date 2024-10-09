@@ -1,0 +1,132 @@
+<form
+  [formGroup]="caseForm"
+  (ngSubmit)="onSubmit()"
+  class="w-full mx-auto mt-5"
+>
+  <!-- Title Field -->
+  <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Title</label>
+    <input
+      formControlName="title"
+      type="text"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      placeholder="Enter title"
+    />
+    <div
+      *ngIf="
+        caseForm.get('title')?.invalid &&
+        (caseForm.get('title')?.touched || caseForm.get('title')?.dirty)
+      "
+    >
+      <small
+        class="text-red-500"
+        *ngIf="caseForm.get('title')?.errors?.['required']"
+      >
+        Title is required.
+      </small>
+    </div>
+  </div>
+
+  <!-- Case Number Field -->
+  <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2"
+      >Case Number</label
+    >
+    <input
+      formControlName="caseNumber"
+      type="text"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      placeholder="Enter case number"
+    />
+    <div
+      *ngIf="
+        caseForm.get('caseNumber')?.invalid &&
+        (caseForm.get('caseNumber')?.touched ||
+          caseForm.get('caseNumber')?.dirty)
+      "
+    >
+      <small
+        class="text-red-500"
+        *ngIf="caseForm.get('caseNumber')?.errors?.['required']"
+      >
+        Case Number is required.
+      </small>
+    </div>
+  </div>
+
+  <!-- Description Field -->
+  <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2"
+      >Description</label
+    >
+    <textarea
+      formControlName="description"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      placeholder="Enter description"
+      rows="5"
+    ></textarea>
+    <div
+      *ngIf="
+        caseForm.get('description')?.invalid &&
+        (caseForm.get('description')?.touched ||
+          caseForm.get('description')?.dirty)
+      "
+    >
+      <small
+        class="text-red-500"
+        *ngIf="caseForm.get('description')?.errors?.['required']"
+      >
+        Description is required.
+      </small>
+    </div>
+  </div>
+
+  <!-- Status Field -->
+  <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Status</label>
+    <!-- <input
+      formControlName="status"
+      type="text"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      placeholder="Enter status"
+    /> -->
+    <select
+      formControlName="status"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    >
+      <option value="" disabled selected>Select Status</option>
+      <option value="Open">Open</option>
+      <option value="Closed">Closed</option>
+    </select>
+    <div
+      *ngIf="
+        caseForm.get('status')?.invalid &&
+        (caseForm.get('status')?.touched || caseForm.get('status')?.dirty)
+      "
+    >
+      <small
+        class="text-red-500"
+        *ngIf="caseForm.get('status')?.errors?.['required']"
+      >
+        Status is required.
+      </small>
+    </div>
+  </div>
+
+  <div *ngIf="error !== ''">
+    <small class="text-red-500">{{ error }}</small>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="flex items-center justify-between">
+    <button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      type="submit"
+      [disabled]="loading"
+    >
+      {{
+        loading ? "Submitting..." : modalType === "edit" ? "Update" : "Create"
+      }}
+    </button>
+  </div>
+</form>
