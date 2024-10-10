@@ -42,10 +42,8 @@ describe('CasesListComponent', () => {
       'getRefreshTableObservable',
     ]);
 
-    // Mock observables
     loadingServiceSpy.getRefreshTableObservable.and.returnValue(of(null));
 
-    // Mock ModalComponent
     modalComponent = jasmine.createSpyObj('ModalComponent', [
       'openModal',
       'closeModal',
@@ -68,7 +66,6 @@ describe('CasesListComponent', () => {
     fixture = TestBed.createComponent(CasesListComponent);
     component = fixture.componentInstance;
 
-    // Set the modalComponent property manually
     component.modalComponent = modalComponent;
 
     casesService = TestBed.inject(CasesService) as jasmine.SpyObj<CasesService>;
@@ -88,14 +85,12 @@ describe('CasesListComponent', () => {
 
   it('should load cases on init', () => {
     casesService.getCases.and.returnValue(of(mockCases));
-    component.loading = true; // set initial loading state to true
+    component.loading = true;
 
-    // Act
     component.loadCases();
 
-    // Assert
-    expect(component.loading).toBe(false); // loading should be false after data is loaded
-    expect(component.caseList).toEqual(mockCases); // caseList should be populated with mock data
+    expect(component.loading).toBe(false);
+    expect(component.caseList).toEqual(mockCases);
     expect(casesService.getCases).toHaveBeenCalled();
   });
 
@@ -105,9 +100,8 @@ describe('CasesListComponent', () => {
       throwError(() => new Error(errorMessage))
     );
 
-    component.loading = true; // set initial loading state to true
+    component.loading = true;
 
-    // Act
     component.ngOnInit();
     expect(casesService.getCases).toHaveBeenCalled();
     expect(component.error).toBe(errorMessage);
@@ -129,5 +123,25 @@ describe('CasesListComponent', () => {
 
     expect(modalComponent.closeModal).toHaveBeenCalled();
     expect(component.isEdit).toBeFalse();
+  });
+
+  it('should open modal with delete type', () => {
+    const mockCase = mockCases[0];
+
+    component.openChildModal('delete', mockCase);
+
+    expect(dataService.setData).toHaveBeenCalledWith(mockCase);
+    expect(modalComponent.openModal).toHaveBeenCalledWith('delete', mockCase);
+    expect(component.isEdit).toBeFalse();
+  });
+
+  it('should open modal with edit type', () => {
+    const mockCase = mockCases[0];
+
+    component.openChildModal('edit', mockCase);
+
+    expect(dataService.setData).toHaveBeenCalledWith(mockCase);
+    expect(modalComponent.openModal).toHaveBeenCalledWith('edit', mockCase);
+    expect(component.isEdit).toBeTrue();
   });
 });

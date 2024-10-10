@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing'; // Needed for testing RouterLink
+import { RouterTestingModule } from '@angular/router/testing';
 import { NotFoundComponent } from './not-found.component';
 
 describe('NotFoundComponent', () => {
@@ -9,7 +9,7 @@ describe('NotFoundComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, NotFoundComponent], // Importing the standalone component here
+      imports: [RouterTestingModule, NotFoundComponent],
     }).compileComponents();
   });
 
@@ -40,7 +40,7 @@ describe('NotFoundComponent', () => {
     const button = compiled.querySelector('button');
 
     expect(button?.textContent).toContain('Return Home');
-    const routerLinkAttr = button?.getAttribute('ng-reflect-router-link'); // Accessing routerLink using Angular's reflection
-    expect(routerLinkAttr).toBe('/'); // Expecting button to link to home '/'
+    const routerLinkAttr = button?.getAttribute('ng-reflect-router-link');
+    expect(routerLinkAttr).toBe('/');
   });
 });

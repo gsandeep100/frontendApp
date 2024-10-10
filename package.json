@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "docker-build": "docker build -t angular-app .",
-    "docker-run": "docker run -d -p 4200:42 angular-app",
+    "docker-run": "docker run -d -p 4200:4200 angular-app",
     "docker-compose": "docker-compose up",
     "json:server": "json-server --watch database.json"
   },

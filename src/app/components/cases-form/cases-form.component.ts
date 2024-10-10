@@ -15,12 +15,12 @@ import { ManageCaseService } from '../../services/manage-case.service';
 @Component({
   selector: 'app-cases-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule], // Import necessary modules
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './cases-form.component.html',
 })
 export class CasesFormComponent implements OnDestroy {
-  @Input() modalType: string = ''; // Dynamic title
-  caseForm: FormGroup; // Declare FormGroup
+  @Input() modalType: string = '';
+  caseForm: FormGroup;
   selectedCase: Cases | null = null;
   caseInitialValue: Cases | null = null;
   error = '';
@@ -33,7 +33,6 @@ export class CasesFormComponent implements OnDestroy {
     private dataService: ManageCaseService,
     private notifyService: DataService
   ) {
-    // Initialize FormGroup in the constructor
     this.caseForm = this.fb.group({
       title: ['', Validators.required],
       caseNumber: ['', Validators.required],
@@ -43,7 +42,6 @@ export class CasesFormComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    // this.caseForm.reset();
     this.error = '';
     this.dataService.data$.subscribe((value) => {
       if (!value) return;
@@ -54,7 +52,6 @@ export class CasesFormComponent implements OnDestroy {
         status: value.status,
       });
       this.selectedCase = value;
-      // console.log('Received data:', value);
     });
   }
 
@@ -76,14 +73,12 @@ export class CasesFormComponent implements OnDestroy {
           .pipe(takeUntil(this.destroyForm$))
           .subscribe({
             next: (data) => {
-              // console.log('Updated case:', data);
               this.loading = false;
               this.dataService.setData(null);
               this.notifyService.notifyTableToRefresh();
               this.notifyService.notifyTabChange();
             },
             error: (error) => {
-              // console.log('There was an error!', error);
               this.loading = false;
               this.error = typeof error === 'string' ? error : error.message;
             },
@@ -99,17 +94,13 @@ export class CasesFormComponent implements OnDestroy {
               this.notifyService.notifyTableToRefresh();
             },
             error: (error) => {
-              // console.log('There was an error!', error);
               this.loading = false;
               this.error = typeof error === 'string' ? error : error.message;
             },
           });
       }
       this.loading = false;
-      // console.log(this.caseInitialValue);
-      // Handle form submission here
     } else {
-      // console.log('Form is invalid');
       this.caseForm.markAllAsTouched();
     }
   }

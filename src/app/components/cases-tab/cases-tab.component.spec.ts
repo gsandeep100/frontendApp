@@ -18,9 +18,8 @@ describe('CasesTabComponent', () => {
   let dataService: jasmine.SpyObj<DataService>;
 
   beforeEach(async () => {
-    // Mock the DataService
     dataService = jasmine.createSpyObj('DataService', {
-      getRefreshTableObservable: of(null), // Ensure it returns an observable
+      getRefreshTableObservable: of(null),
     });
 
     await TestBed.configureTestingModule({
@@ -30,13 +29,13 @@ describe('CasesTabComponent', () => {
         ModalComponent,
         CasesTabComponent,
         HttpClientTestingModule,
-      ], // Import child components
-      providers: [{ provide: DataService, useValue: dataService }], // Provide the mock DataService
+      ],
+      providers: [{ provide: DataService, useValue: dataService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CasesTabComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Trigger initial change detection
+    fixture.detectChanges();
   });
 
   it('should create the component', () => {
@@ -52,13 +51,13 @@ describe('CasesTabComponent', () => {
   });
 
   it('should subscribe to the refresh table observable and change active tab to "List Case"', fakeAsync(() => {
-    const mockObservable = of(null); // Mock observable
+    const mockObservable = of(null);
     dataService.getRefreshTableObservable.and.returnValue(
       mockObservable as any
     );
 
-    fixture.detectChanges(); // Initialize the component and set up the subscription
-    tick(); // Simulate async observable emitting
+    fixture.detectChanges();
+    tick();
 
     expect(component.activeTab).toBe('List Case');
   }));

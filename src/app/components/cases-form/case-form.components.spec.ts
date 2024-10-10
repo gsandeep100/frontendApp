@@ -16,7 +16,6 @@ describe('CasesFormComponent', () => {
   let dataSubject: Subject<any>;
 
   beforeEach(async () => {
-    // Mocking Services
     caseServiceMock = jasmine.createSpyObj('CasesService', [
       'createCase',
       'updateCase',
@@ -36,7 +35,7 @@ describe('CasesFormComponent', () => {
         ReactiveFormsModule,
         HttpClientTestingModule,
         CasesFormComponent,
-      ], // Use imports instead of declarations
+      ],
       providers: [
         { provide: CasesService, useValue: caseServiceMock },
         { provide: ManageCaseService, useValue: manageCaseServiceMock },
@@ -60,11 +59,9 @@ describe('CasesFormComponent', () => {
       status: 'Closed',
     };
 
-    // Emit mock data
     dataSubject.next(mockCase);
     fixture.detectChanges();
 
-    // Check if form values are set correctly
     expect(component.caseForm.get('title')?.value).toBe('Loaded Case');
     expect(component.caseForm.get('caseNumber')?.value).toBe('456');
     expect(component.caseForm.get('description')?.value).toBe(
