@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Cases } from '../../models/case';
 import { CasesService } from '../../services/cases.service';
 import { DataService } from '../../services/data.service';
+import { ManageCaseService } from '../../services/manage-case.service';
 import { CasesFormComponent } from '../cases-form/cases-form.component';
 
 @Component({
@@ -24,7 +25,8 @@ export class ModalComponent implements OnInit {
 
   constructor(
     private caseService: CasesService,
-    private notifyService: DataService
+    private notifyService: DataService,
+    private modalService: ManageCaseService
   ) {}
 
   openModal(type: string, item: Cases) {
@@ -50,6 +52,7 @@ export class ModalComponent implements OnInit {
     this.modalText = '';
     this.modalTitle = '';
     this.error = '';
+    this.modalService.setData(null);
   }
 
   ngOnInit() {
