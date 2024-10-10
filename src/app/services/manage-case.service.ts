@@ -10,7 +10,7 @@ export class ManageCaseService {
   private caseDataSubject = new BehaviorSubject<Cases | null>(this.caseData);
   data$ = this.caseDataSubject.asObservable();
 
-  setData(caseData: Cases) {
+  setData(caseData: Cases | null) {
     this.caseData = caseData;
     this.caseDataSubject.next(caseData); // Emit the new case data
   }

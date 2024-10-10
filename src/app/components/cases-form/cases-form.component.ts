@@ -43,7 +43,7 @@ export class CasesFormComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    this.caseForm.reset();
+    // this.caseForm.reset();
     this.error = '';
     this.dataService.data$.subscribe((value) => {
       if (!value) return;
@@ -78,7 +78,7 @@ export class CasesFormComponent implements OnDestroy {
             next: (data) => {
               // console.log('Updated case:', data);
               this.loading = false;
-              this.caseForm.reset();
+              this.dataService.setData(null);
               this.notifyService.notifyTableToRefresh();
               this.notifyService.notifyTabChange();
             },
