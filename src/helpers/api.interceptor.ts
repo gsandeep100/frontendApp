@@ -3,7 +3,7 @@ import { environment } from '../environments/environment';
 
 export const ApiInterceptor: HttpInterceptorFn = (req, next) => {
   const apiUrl = environment.apiUrl;
-  console.log(`\n\n ~ apiUrl:`, apiUrl);
+  // console.log(`\n\n ~ apiUrl:`, apiUrl);
   // Check if the request URL is a relative path
   if (!req.url.startsWith('http://') && !req.url.startsWith('https://')) {
     // Clone and modify the request with the base URL

@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { LogHttpRequest } from '../../utils/log.decorator';
 import endpoints from '../constants/endpoints';
 import { Cases } from '../models/case';
 
@@ -10,30 +11,35 @@ import { Cases } from '../models/case';
 export class CasesService {
   constructor(private http: HttpClient) {}
 
+  @LogHttpRequest('GET cases')
   getCases<T>() {
     return this.http.get<T>(endpoints.cases).pipe(
       catchError(this.handleError) // Handle errors here
     );
   }
 
+  @LogHttpRequest('GET single cases')
   getCase(id: string) {
     return this.http.get(endpoints?.cases + `/${id}`).pipe(
       catchError(this.handleError) // Handle errors here
     );
   }
 
+  @LogHttpRequest('POST case')
   createCase(data: Omit<Cases, 'id'>) {
     return this.http.post(endpoints.addCase, data).pipe(
       catchError(this.handleError) // Handle errors here
     );
   }
 
+  @LogHttpRequest('Update case')
   updateCase(id: string, data: Cases) {
     return this.http.put(endpoints?.cases + `/${id}`, data).pipe(
       catchError(this.handleError) // Handle errors here
     );
   }
 
+  @LogHttpRequest('DELETE case')
   deleteCase(id: string) {
     return this.http.delete(endpoints?.cases + `/${id}`).pipe(
       catchError(this.handleError) // Handle errors here

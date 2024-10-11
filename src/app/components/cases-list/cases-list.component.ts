@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+import { Log } from '../../../utils/log.decorator';
 import { Cases } from '../../models/case';
 import { CasesService } from '../../services/cases.service';
 import { DataService } from '../../services/data.service';
@@ -53,7 +54,7 @@ export class CasesListComponent implements OnInit {
       .subscribe({
         next: (data) => {
           // console.log('Cases loaded:', data);
-          this.caseList = data;
+          this.caseList = data && data?.length ? data : [];
           this.loading = false;
         },
         error: (error) => {
@@ -64,6 +65,7 @@ export class CasesListComponent implements OnInit {
       });
   }
 
+  @Log({ inputs: true, outputs: false })
   openChildModal(type: string, item: Cases) {
     this.dataService.setData(item); // Set the current case data
     this.modalComponent.openModal(type, item); // Open the modal with the selected case
