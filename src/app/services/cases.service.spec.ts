@@ -80,7 +80,7 @@ describe('CasesService', () => {
       expect(response).toEqual(mockCase);
     });
 
-    const req = httpMock.expectOne(endpoints.cases);
+    const req = httpMock.expectOne(endpoints.addCase);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(mockCase);
     req.flush(mockCase);
