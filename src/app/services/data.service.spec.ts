@@ -15,7 +15,7 @@ describe('DataService', () => {
 
   it('should notify components to refresh the table', (done: DoneFn) => {
     service.getRefreshTableObservable().subscribe(() => {
-      expect(true).toBe(true); // Just verifying that the subscription works
+      expect(true).toBe(true);
       done();
     });
 
@@ -24,7 +24,7 @@ describe('DataService', () => {
 
   it('should notify components of tab change', (done: DoneFn) => {
     service.getTabChangeObservable().subscribe(() => {
-      expect(true).toBe(true); // Just verifying that the subscription works
+      expect(true).toBe(true);
       done();
     });
 

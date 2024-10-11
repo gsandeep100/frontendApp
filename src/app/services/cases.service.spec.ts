@@ -3,6 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import endpoints from '../constants/endpoints';
 import { Cases } from '../models/case';
 import { CasesService } from './cases.service';
 
@@ -21,7 +22,7 @@ describe('CasesService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // Ensure that there are no pending requests
+    httpMock.verify(); // Ensure no pending HTTP requests
   });
 
   it('should be created', () => {
@@ -44,9 +45,27 @@ describe('CasesService', () => {
       expect(cases).toEqual(mockCases);
     });
 
-    const req = httpMock.expectOne('/cases');
+    const req = httpMock.expectOne(endpoints.cases);
     expect(req.request.method).toBe('GET');
-    req.flush(mockCases); // Simulate the response
+    req.flush(mockCases);
+  });
+
+  it('should get a case by ID from the API', () => {
+    const mockCase: Cases = {
+      id: '1',
+      title: 'Test Case',
+      caseNumber: '123',
+      description: 'Test description',
+      status: 'Open',
+    };
+
+    service.getCase('1').subscribe((response) => {
+      expect(response).toEqual(mockCase);
+    });
+
+    const req = httpMock.expectOne(`${endpoints.cases}/1`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockCase);
   });
 
   it('should create a case via the API', () => {
@@ -61,10 +80,39 @@ describe('CasesService', () => {
       expect(response).toEqual(mockCase);
     });
 
-    const req = httpMock.expectOne('/cases/addNewCase');
+    const req = httpMock.expectOne(endpoints.addCase);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(mockCase);
-    req.flush(mockCase); // Simulate the response
+    req.flush(mockCase);
+  });
+
+  it('should update a case via the API', () => {
+    const mockCase: Cases = {
+      id: '1',
+      title: 'Updated Case',
+      caseNumber: '123',
+      description: 'Updated description',
+      status: 'Closed',
+    };
+
+    service.updateCase('1', mockCase).subscribe((response) => {
+      expect(response).toEqual(mockCase);
+    });
+
+    const req = httpMock.expectOne(`${endpoints.cases}/1`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(mockCase);
+    req.flush(mockCase);
+  });
+
+  it('should delete a case via the API', () => {
+    service.deleteCase('1').subscribe((response) => {
+      expect(response).toBe(null as any); // Assuming delete returns no content
+    });
+
+    const req = httpMock.expectOne(`${endpoints.cases}/1`);
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null); // Simulate no content response
   });
 
   it('should handle error from the API', () => {
@@ -73,14 +121,13 @@ describe('CasesService', () => {
     service.getCases<Cases[]>().subscribe(
       () => {},
       (error) => {
-        // console.log(error?.message);
         expect(error?.message).toContain(
           'Internal server error. Please try again later.'
         );
       }
     );
 
-    const req = httpMock.expectOne('/cases');
-    req.flush('Error message', mockError); // Simulate an error response
+    const req = httpMock.expectOne(endpoints.cases);
+    req.flush('Error message', mockError);
   });
 });

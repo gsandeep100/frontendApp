@@ -18,7 +18,7 @@ describe('ModalComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [ModalComponent], // Import ModalComponent as a standalone component
+      imports: [ModalComponent],
       providers: [
         { provide: CasesService, useValue: mockCasesService },
         { provide: DataService, useValue: mockDataService },
@@ -93,13 +93,12 @@ describe('ModalComponent', () => {
 
     component.onDelete();
 
-    // Wait for async operations to complete
     setTimeout(() => {
-      expect(component.isDeleting).toBeFalse(); // Check if deletion finished
+      expect(component.isDeleting).toBeFalse();
       expect(mockCasesService.deleteCase).toHaveBeenCalledWith('1');
       expect(mockDataService.notifyTableToRefresh).toHaveBeenCalled();
-      done(); // Signal completion
-    }, 0); // Adjust timeout as necessary
+      done();
+    }, 0);
   });
 
   it('should handle delete error gracefully', (done: DoneFn) => {
@@ -121,9 +120,9 @@ describe('ModalComponent', () => {
     component.onDelete();
 
     setTimeout(() => {
-      expect(component.isDeleting).toBeFalse(); // Ensure deletion is reset
+      expect(component.isDeleting).toBeFalse();
       expect(mockCasesService.deleteCase).toHaveBeenCalledWith('1');
-      done(); // Signal completion
+      done();
     }, 0);
   });
 });
