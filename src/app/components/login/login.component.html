@@ -1,73 +1,64 @@
 <form
   [formGroup]="loginForm"
   (ngSubmit)="onSubmit()"
-  class="w-full mx-auto mt-5"
->
-  <!-- Username Field -->
-  <div class="mb-4">
-    <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-    <input
-      formControlName="user"
-      type="text"
-      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      placeholder="Email"
-    />
-    <div
-      *ngIf="
-        loginForm.get('email')?.invalid &&
-        (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)
-      "
-    >
-      <small
-        class="text-red-500"
-        *ngIf="loginForm.get('email')?.errors?.['required']"
-      >
-        Title is required.
-      </small>
-    </div>
-  </div>
+  autocomplete="new-password"
+  class="w-full mx-auto mt-5">
+  <div>
+    <h1 class="center">LOGIN</h1>
 
-  <!-- Password Field -->
-  <div class="mb-4">
-    <label class="block text-gray-700 text-sm font-bold mb-2"
-    >Password</label
-    >
-    <input
-      formControlName="password"
-      type="text"
-      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      placeholder="Enter case number"
-    />
-    <div
-      *ngIf="
+    <!-- Username Field -->
+    <div class="form-control">
+      <label>Email: </label>
+      <input
+        formControlName="email"
+        type="email"
+        autocomplete="new-password"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="Email"
+      />
+      <div
+        *ngIf="
+        loginForm.get('email')?.invalid &&
+        (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
+        <small
+          class="text-red-500"
+          *ngIf="loginForm.get('email')?.errors?.['required']"
+        >
+          Title is required.
+        </small>
+      </div>
+    </div>
+
+    <!-- Password Field -->
+    <div class="form-control">
+      <label>Password: </label>
+      <input
+        formControlName="password"
+        type="password"
+        autocomplete="new-password"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="Password"/>
+      <div
+        *ngIf="
         loginForm.get('password')?.invalid &&
         (loginForm.get('password')?.touched ||
-          loginForm.get('password')?.dirty)
-      "
-    >
-      <small
-        class="text-red-500"
-        *ngIf="loginForm.get('password')?.errors?.['required']"
-      >
-        Password is required.
-      </small>
+          loginForm.get('password')?.dirty)">
+        <small
+          class="text-red-500"
+          *ngIf="loginForm.get('password')?.errors?.['required']">
+          Password is required.
+        </small>
+      </div>
     </div>
-  </div>
+
+    <!-- Submit Button -->
+    <div class="hcenter">
+      <button type="submit">Submit</button>
+    </div>
 
 
-  <div *ngIf="error !== ''">
-    <small class="text-red-500">{{ error }}</small>
-  </div>
-
-  <!-- Submit Button -->
-  <div class="flex items-center justify-between">
-    <button
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-      type="submit"
-    >
-      {{
-        "Submitting.."
-      }}
-    </button>
+    <div *ngIf="error !== ''">
+      <small class="text-red-500">{{ error }}</small>
+    </div>
   </div>
 </form>

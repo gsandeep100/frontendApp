@@ -21,6 +21,7 @@ import {Login} from '../../../models/login';
     ReactiveFormsModule
   ] , // Import components
   templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnDestroy {
   email: string = '';
@@ -36,7 +37,7 @@ export class LoginComponent implements OnDestroy {
     private dataService: ManageLoginService,
   ) {
     this.loginForm = this.fb.group({
-      user: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required],
     });
     this.dataService.data$.subscribe((value) => {
