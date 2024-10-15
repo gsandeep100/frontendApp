@@ -1,0 +1,45 @@
+<div
+  [ngClass]="isModalOpen ? 'block' : 'hidden'"
+  class="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50"
+>
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
+    <h2 class="text-2xl font-bold mb-4">{{ modalTitle }}</h2>
+    <!-- Dynamic Title -->
+    <!-- <p class="mb-6">{{ modalText }}</p> -->
+    <!-- Dynamic Text -->
+    <!-- This will render projected content from the parent component -->
+    <div [ngClass]="modalType === 'edit' ? 'block' : 'hidden'">
+      <app-cases-form [modalType]="modalType"></app-cases-form>
+    </div>
+    <!-- Close button -->
+    <button
+      class="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+      (click)="closeModal()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-6 h-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M9.75 9.75L14.25 14.25M14.25 9.75L9.75 14.25"
+        />
+      </svg>
+    </button>
+
+    <!-- Another Close Button -->
+    <button
+      class="bg-red-500 text-white px-4 py-2 rounded"
+      (click)="onDelete()"
+      [disabled]="isDeleting"
+      *ngIf="modalType !== 'edit'"
+    >
+      {{ isDeleting ? "Deleting..." : "Delete" }}
+    </button>
+  </div>
+</div>
