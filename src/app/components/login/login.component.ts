@@ -7,7 +7,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CasesTabComponent } from '../cases-tab/cases-tab.component';
 import { ModalComponent } from '../modal/modal.component';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -25,7 +24,6 @@ import { AdduserComponent } from '../adduser/adduser.component';
   imports: [
     CommonModule,
     ModalComponent,
-    CasesTabComponent,
     FormsModule,
     ReactiveFormsModule,
     AdduserComponent,

@@ -13,7 +13,6 @@ import { Login } from '../../models/login';
 import { User } from '../../models/user';
 import { ManageUserService } from '../../services/manage-user.service';
 import { UserService } from '../../services/user.service';
-import { CasesTabComponent } from '../cases-tab/cases-tab.component';
 import { ModalComponent } from '../modal/modal.component';
 
 @Component({
@@ -22,7 +21,6 @@ import { ModalComponent } from '../modal/modal.component';
   imports: [
     CommonModule,
     ModalComponent,
-    CasesTabComponent,
     FormsModule,
     ReactiveFormsModule,
   ], // Import components

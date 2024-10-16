@@ -4,8 +4,8 @@ import { Cases } from '../../models/case';
 import { DataService } from '../../services/data.service';
 import { CasesFormComponent } from '../cases-form/cases-form.component';
 import { CasesListComponent } from '../cases-list/cases-list.component';
-import { LoginComponent } from '../login/login.component';
 import { ModalComponent } from '../modal/modal.component';
+import {LoginComponent} from '../login/login.component';
 
 @Component({
   selector: 'app-cases-tab',
