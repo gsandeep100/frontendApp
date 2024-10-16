@@ -49,7 +49,7 @@ export class CasesService {
   // Error handling function
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';
-     console.log(error);
+    console.log(error);
     const statusCode = error?.status;
     if (error.error instanceof ErrorEvent) {
       // Client-side or network error

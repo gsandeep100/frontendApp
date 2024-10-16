@@ -1,0 +1,138 @@
+<form
+  [formGroup]="createUserForm"
+  class="w-full mx-auto mt-5">
+  <div>
+    <h1 class="center">NEW USER</h1>
+
+    <!-- Firstname Field -->
+    <div class="form-control">
+      <label>First name: </label>
+      <input
+        formControlName="firstname"
+        type="email"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="First name"
+      />
+      <div
+        *ngIf="
+        createUserForm.get('firstname')?.invalid &&
+        (createUserForm.get('firstname')?.touched || createUserForm.get('firstname')?.dirty)">
+        <small
+          class="text-red-500"
+          *ngIf="createUserForm.get('firstname')?.errors?.['required']"
+        >
+          Firstname is required.
+        </small>
+      </div>
+    </div>
+
+    <!-- Last name Field -->
+    <div class="form-control">
+      <label>Last name: </label>
+      <input
+        formControlName="lastname"
+        type="lastname"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="Last name"
+      />
+      <div
+        *ngIf="
+        createUserForm.get('lastname')?.invalid &&
+        (createUserForm.get('lastname')?.touched || createUserForm.get('lastname')?.dirty)">
+        <small
+          class="text-red-500"
+          *ngIf="createUserForm.get('lastname')?.errors?.['required']"
+        >
+          Lastname is required.
+        </small>
+      </div>
+    </div>
+
+    <!-- Email Field -->
+    <div class="form-control">
+      <label>Email: </label>
+      <input
+        formControlName="email"
+        type="email"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="Email"
+      />
+      <div
+        *ngIf="
+        createUserForm.get('email')?.invalid &&
+        (createUserForm.get('email')?.touched || createUserForm.get('email')?.dirty)">
+        <small
+          class="text-red-500"
+          *ngIf="createUserForm.get('email')?.errors?.['required']"
+        >
+          Email is required.
+        </small>
+      </div>
+    </div>
+
+    <!-- Password Field -->
+    <div class="form-control">
+      <label>Password: </label>
+      <input
+        formControlName="password"
+        type="password"
+        autocomplete="new-password"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="Password"/>
+      <div
+        *ngIf="
+        createUserForm.get('password')?.invalid &&
+        (createUserForm.get('password')?.touched ||
+          createUserForm.get('password')?.dirty)">
+        <small
+          class="text-red-500"
+          *ngIf="createUserForm.get('password')?.errors?.['required']">
+          Password is required.
+        </small>
+      </div>
+    </div>
+
+    <!-- Role Field -->
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2">Status</label>
+      <select
+        formControlName="role"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      >
+        <option value="" disabled selected>Select Role</option>
+        <option value="USER">USER</option>
+        <option value="ADMIN">ADMIN</option>
+      </select>
+      <div
+        *ngIf="
+        createUserForm.get('role')?.invalid &&
+        (createUserForm.get('role')?.touched || createUserForm.get('role')?.dirty)
+      "
+      >
+        <small
+          class="text-red-500"
+          *ngIf="createUserForm.get('role')?.errors?.['required']"
+        >
+          Role is required.
+        </small>
+      </div>
+    </div>
+
+
+    <!-- Submit Button -->
+    <div class="hcenter">
+      <button type="button" (click)="onSubmit()">Submit</button>
+    </div>
+    <div style="margin-bottom:20px"></div>
+
+    <!-- Cancel Button -->
+    <div class="hcenter">
+      <button type="button" (click)="Close()">Cancel</button>
+    </div>
+    <div style="margin-bottom:20px"></div>
+
+    <div *ngIf="error !== ''">
+      <small class="text-red-500">{{ error }}</small>
+    </div>
+  </div>
+</form>

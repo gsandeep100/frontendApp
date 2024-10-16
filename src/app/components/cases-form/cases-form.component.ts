@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
+import { Log } from '../../../utils/log.decorator';
 import { Cases } from '../../models/case';
 import { CasesService } from '../../services/cases.service';
 import { DataService } from '../../services/data.service';
@@ -60,6 +61,7 @@ export class CasesFormComponent implements OnDestroy {
     this.destroyForm$.complete();
   }
 
+  @Log()
   onSubmit() {
     if (this.caseForm.valid) {
       this.loading = true;

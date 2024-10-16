@@ -1,0 +1,17 @@
+<div class="div">
+  <h2 class="text-xl font-bold">{{ selectedCase?.caseNumber }}</h2>
+  <div class="flex gap-4 my-3">
+    <div class="w-1/2 mb-3">
+      <h3 class="text-lg font-semibold mb-2">Title</h3>
+      <p class="p1">{{ selectedCase?.title }}</p>
+    </div>
+    <div class="w-1/2 mb-3">
+      <h3 class="text-lg font-semibold mb-2">Status</h3>
+      <p class="p2">{{ selectedCase?.status }}</p>
+    </div>
+  </div>
+  <div class="w-full mb-3">
+    <h3 class="text-lg font-semibold mb-2">Description</h3>
+    <p>{{ selectedCase?.description }}</p>
+  </div>
+</div>

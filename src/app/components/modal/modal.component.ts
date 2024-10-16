@@ -5,11 +5,17 @@ import { CasesService } from '../../services/cases.service';
 import { DataService } from '../../services/data.service';
 import { ManageCaseService } from '../../services/manage-case.service';
 import { CasesFormComponent } from '../cases-form/cases-form.component';
+import { ViewCaseComponent } from '../view-case/view-case.component';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule, CasesFormComponent],
+  imports: [
+    CommonModule,
+    CasesFormComponent,
+    ViewCaseComponent,
+    ViewCaseComponent,
+  ],
   templateUrl: './modal.component.html',
 })
 export class ModalComponent implements OnInit {
@@ -38,6 +44,9 @@ export class ModalComponent implements OnInit {
     // console.log('Selected Case:', item, this.selectedCase);
     if (type === 'edit') {
       this.modalTitle = item?.title || 'Edit Case';
+      this.modalText = '';
+    } else if (type === 'view') {
+      this.modalTitle = 'View Case';
       this.modalText = '';
     } else {
       this.modalTitle = 'Delete Case';

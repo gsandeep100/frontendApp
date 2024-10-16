@@ -125,4 +125,21 @@ describe('ModalComponent', () => {
       done();
     }, 0);
   });
+
+  // Test to ensure projected components render correctly
+  it('should render the correct component based on modal type', () => {
+    component.openModal('view', {
+      id: '6',
+      title: 'View Test',
+      caseNumber: '999',
+      description: 'A case to view',
+      status: 'Closed',
+    });
+
+    fixture.detectChanges(); // Ensure the template updates
+
+    const viewComponent = fixture.nativeElement.querySelector('app-view-case');
+
+    expect(viewComponent).toBeTruthy();
+  });
 });

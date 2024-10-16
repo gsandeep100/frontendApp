@@ -1,6 +1,6 @@
 const endpoints = {
   cases: '/cases',
-  addCase: '/cases/addNewCase',
+  addCase: '/cases',
 };
 
 export default endpoints;

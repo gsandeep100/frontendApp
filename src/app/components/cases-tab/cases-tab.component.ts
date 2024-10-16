@@ -4,6 +4,7 @@ import { Cases } from '../../models/case';
 import { DataService } from '../../services/data.service';
 import { CasesFormComponent } from '../cases-form/cases-form.component';
 import { CasesListComponent } from '../cases-list/cases-list.component';
+import { LoginComponent } from '../login/login.component';
 import { ModalComponent } from '../modal/modal.component';
 
 @Component({
@@ -14,6 +15,7 @@ import { ModalComponent } from '../modal/modal.component';
     CasesListComponent,
     CasesFormComponent,
     ModalComponent,
+    LoginComponent,
   ],
   templateUrl: './cases-tab.component.html',
 })
@@ -26,6 +28,8 @@ export class CasesTabComponent {
 
   selectedCase: Cases | null = null;
 
+  isLogin: boolean = false;
+
   constructor(private dataService: DataService) {}
 
   setActiveTab(tab: string) {
@@ -37,5 +41,13 @@ export class CasesTabComponent {
     this.dataService.getRefreshTableObservable().subscribe(() => {
       this.setActiveTab('List Case');
     });
+    this.dataService.getLoginChangeObservable().subscribe(() => {
+      this.setIslLogin();
+    });
+    this.isLogin = false;
+  }
+
+  setIslLogin() {
+    this.isLogin = true;
   }
 }

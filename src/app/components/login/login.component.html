@@ -1,0 +1,78 @@
+<div>
+  <form
+    [formGroup]="loginForm"
+    autocomplete="new-password"
+    class="w-full mx-auto mt-5"
+  >
+    <div>
+      <h1 class="center">LOGIN</h1>
+
+      <!-- Username Field -->
+      <div class="form-control">
+        <label>Email: </label>
+        <input
+          formControlName="email"
+          type="email"
+          autocomplete="new-password"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Email"
+        />
+        <div
+          *ngIf="
+            loginForm.get('email')?.invalid &&
+            (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)
+          "
+        >
+          <small
+            class="text-red-500"
+            *ngIf="loginForm.get('email')?.errors?.['required']"
+          >
+            Title is required.
+          </small>
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-control">
+        <label>Password: </label>
+        <input
+          formControlName="password"
+          type="password"
+          autocomplete="new-password"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Password"
+        />
+        <div
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            (loginForm.get('password')?.touched ||
+              loginForm.get('password')?.dirty)
+          "
+        >
+          <small
+            class="text-red-500"
+            *ngIf="loginForm.get('password')?.errors?.['required']"
+          >
+            Password is required.
+          </small>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="hcenter">
+        <button type="button" (click)="onSubmit()">Submit</button>
+      </div>
+      <div style="margin-bottom: 20px"></div>
+      <!-- Create new user -->
+      <div class="hcenter" routerLink="/cases-tab.component">
+        <button type="submit" (click)="onCreateNewUser()">
+          Create New User
+        </button>
+      </div>
+
+      <div *ngIf="error !== ''">
+        <small class="text-red-500">{{ error }}</small>
+      </div>
+    </div>
+  </form>
+</div>
