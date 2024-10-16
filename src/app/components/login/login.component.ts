@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,16 +7,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ModalComponent } from '../modal/modal.component';
+import {ModalComponent} from '../modal/modal.component';
 
-import { MatDialog } from '@angular/material/dialog';
-import { RouterOutlet } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { Login } from '../../models/login';
-import { DataService } from '../../services/data.service';
-import { LoginService } from '../../services/login.service';
-import { ManageLoginService } from '../../services/manage-login.service';
-import { AdduserComponent } from '../adduser/adduser.component';
+import {RouterOutlet} from '@angular/router';
+import {Subject, takeUntil} from 'rxjs';
+import {Login} from '../../models/login';
+import {DataService} from '../../services/data.service';
+import {LoginService} from '../../services/login.service';
+import {ManageLoginService} from '../../services/manage-login.service';
+import {Log} from '../../../utils/log.decorator';
 
 @Component({
   selector: 'app-login',
@@ -26,15 +25,15 @@ import { AdduserComponent } from '../adduser/adduser.component';
     ModalComponent,
     FormsModule,
     ReactiveFormsModule,
-    AdduserComponent,
     RouterOutlet,
   ], // Import components
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnDestroy {
-  @ViewChild(AdduserComponent, { static: false })
-  adduserComponent!: AdduserComponent;
+  @ViewChild(ModalComponent) modalComponent!: ModalComponent;
+  modalTitle: string = 'Edit Case';
+  modalText: string = 'Please edit the case details in the form below.';
 
   email: string = '';
   password: string = '';
@@ -42,12 +41,12 @@ export class LoginComponent implements OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   error = '';
   loginValues: Login = new Login();
+
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
     private dataService: ManageLoginService,
-    private dialog: MatDialog,
-    private loginNotifyService: DataService
+    private notifyService: DataService
   ) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
@@ -59,9 +58,14 @@ export class LoginComponent implements OnDestroy {
         title: value.email,
         caseNumber: value.password,
       });
-      // console.log('Received data:', value);
     });
-    // Initialize FormGroup in the constructor
+  }
+
+  ngOnInit(): void {
+    this.error = '';
+    this.notifyService.getRegistrationChangeObservable().subscribe(() => {
+      this.closeChildModal();
+    });
   }
 
   onSubmit() {
@@ -79,7 +83,7 @@ export class LoginComponent implements OnDestroy {
           next: (data) => {
             console.log('Updated case:', data);
             if (data) {
-              this.loginNotifyService.notifyLoginChange();
+              this.notifyService.notifyLoginChange();
             }
             //this.loading = false;
             //this.notifyService.notifyTableToRefresh();
@@ -90,29 +94,16 @@ export class LoginComponent implements OnDestroy {
             this.error = typeof error === 'string' ? error : error.message;
           },
         });
-      // Add authentication logic and navigate to the next page upon successful login
     }
   }
 
-  onCreateNewUser() {
-    const dialogRef = this.dialog.open(AdduserComponent, {
-      width: '1800px',
-      height: '756px',
-      //data: {name: this.name, animal: this.animal},
-      backdropClass: 'backdropBackground', // This is the "wanted" line
-    });
+  @Log({inputs: true, outputs: false})
+  openChildModal(type: string, title: string) {
+    this.modalComponent.openModalRegistration(type, title); // Open the modal with the selected case
+  }
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
-
-    //const dialogConfig = new MatDialogConfig();
-    //dialogConfig.width = '1800px';
-    //dialogConfig.height = '756px';
-    //dialogConfig.backdropClass = 'popupbackdropclass';
-    //this.dialog.open(AdduserComponent,dialogConfig);
-    //this.adduserComponent.openModal();
-    //console.log("onCreateNewUser clicked")
+  closeChildModal() {
+    this.modalComponent.closeModal(); // Close the modal
   }
 
   ngOnDestroy(): void {

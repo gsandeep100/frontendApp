@@ -60,13 +60,18 @@
 
       <!-- Submit Button -->
       <div class="hcenter">
-        <button type="button" (click)="onSubmit()">Submit</button>
+        <button type="button" (click)="onSubmit()"
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
+          Submit
+        </button>
       </div>
       <div style="margin-bottom: 20px"></div>
       <!-- Create new user -->
-      <div class="hcenter" routerLink="/cases-tab.component">
-        <button type="submit" (click)="onCreateNewUser()">
-          Create New User
+      <div class="hcenter">
+        <button
+          (click)="openChildModal('registration', 'Add New User')"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
+          Registration
         </button>
       </div>
 
@@ -75,4 +80,7 @@
       </div>
     </div>
   </form>
+  <!-- Modal Component Usage with Dynamic Content -->
+  <app-modal [modalTitle]="modalTitle" [modalText]="modalText"></app-modal>
+
 </div>

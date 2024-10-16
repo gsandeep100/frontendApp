@@ -1,11 +1,12 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
-import { Cases } from '../../models/case';
-import { CasesService } from '../../services/cases.service';
-import { DataService } from '../../services/data.service';
-import { ManageCaseService } from '../../services/manage-case.service';
-import { CasesFormComponent } from '../cases-form/cases-form.component';
-import { ViewCaseComponent } from '../view-case/view-case.component';
+import {CommonModule} from '@angular/common';
+import {Component, Input, OnInit} from '@angular/core';
+import {Cases} from '../../models/case';
+import {CasesService} from '../../services/cases.service';
+import {DataService} from '../../services/data.service';
+import {ManageCaseService} from '../../services/manage-case.service';
+import {CasesFormComponent} from '../cases-form/cases-form.component';
+import {ViewCaseComponent} from '../view-case/view-case.component';
+import {AdduserComponent} from '../adduser/adduser.component';
 
 @Component({
   selector: 'app-modal',
@@ -15,6 +16,7 @@ import { ViewCaseComponent } from '../view-case/view-case.component';
     CasesFormComponent,
     ViewCaseComponent,
     ViewCaseComponent,
+    AdduserComponent,
   ],
   templateUrl: './modal.component.html',
 })
@@ -33,7 +35,8 @@ export class ModalComponent implements OnInit {
     private caseService: CasesService,
     private notifyService: DataService,
     private modalService: ManageCaseService
-  ) {}
+  ) {
+  }
 
   openModal(type: string, item: Cases) {
     this.isModalOpen = true;
@@ -52,6 +55,14 @@ export class ModalComponent implements OnInit {
       this.modalTitle = 'Delete Case';
       this.modalText = 'Are you sure you want to delete this case?';
     }
+  }
+
+  openModalRegistration(type: string, title: string) {
+    this.isModalOpen = true;
+    this.modalType = type;
+    this.error = '';
+    this.modalTitle = title;
+    this.modalText = '';
   }
 
   closeModal() {

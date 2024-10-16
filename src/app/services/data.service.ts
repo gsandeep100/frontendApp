@@ -9,6 +9,7 @@ export class DataService {
   private refreshTableSubject = new Subject<void>();
   private tabChangeSubject = new Subject<void>();
   private loginChangeSubject = new Subject<void>();
+  private registrationChangeSubject = new Subject<void>();
 
   // Method to notify components to refresh the table
   notifyTableToRefresh(): void {
@@ -38,5 +39,15 @@ export class DataService {
   // Method for table component to subscribe to refresh event
   getLoginChangeObservable(): Observable<void> {
     return this.loginChangeSubject.asObservable();
+  }
+
+  // Method to notify components to refresh the table
+  notifyRegistrationChange(): void {
+    this.registrationChangeSubject.next();
+  }
+
+  // Method for table component to subscribe to refresh event
+  getRegistrationChangeObservable(): Observable<void> {
+    return this.registrationChangeSubject.asObservable();
   }
 }
