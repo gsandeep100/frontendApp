@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { CasesFormComponent } from '../cases-form/cases-form.component';
 import { Cases, CasesListComponent } from '../cases-list/cases-list.component';
 import { ModalComponent } from '../modal/modal.component';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-cases-tab',
@@ -12,6 +13,7 @@ import { ModalComponent } from '../modal/modal.component';
     CasesListComponent,
     CasesFormComponent,
     ModalComponent,
+    RouterOutlet,
   ], // Import components
   templateUrl: './cases-tab.component.html',
 })

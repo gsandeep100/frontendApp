@@ -2,17 +2,18 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {catchError, throwError} from 'rxjs';
 import {Login} from '../models/login';
+import {User} from '../models/user';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LoginService {
+export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  getUserPassword<T>(data: Login) {
+  addUser<T>(data: User) {
 
-    return this.http.post<T>('/auth/login', data).pipe(
+    return this.http.post<T>('/auth/register', data).pipe(
       catchError(this.handleError) // Handle errors here
     );
   }

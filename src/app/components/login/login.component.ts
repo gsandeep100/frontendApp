@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, NgModule, OnDestroy, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {ModalComponent} from '../modal/modal.component';
@@ -8,7 +8,9 @@ import { ManageLoginService } from '../../../services/manage-login.service';
 
 import {Subject, takeUntil} from 'rxjs';
 import {Login} from '../../../models/login';
-
+import {AdduserComponent} from '../adduser/adduser.component';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,23 +20,27 @@ import {Login} from '../../../models/login';
     ModalComponent,
     CasesTabComponent,
     FormsModule,
-    ReactiveFormsModule
-  ] , // Import components
+    ReactiveFormsModule,
+    AdduserComponent,
+    RouterOutlet
+  ], // Import components
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnDestroy {
+  @ViewChild(AdduserComponent, {static: false}) adduserComponent!: AdduserComponent;
+
   email: string = '';
   password: string = '';
   loginForm: FormGroup; // Declare FormGroup
   private destroy$: Subject<void> = new Subject<void>();
-  //loading: boolean = false;
   error = '';
   loginValues: Login = new Login();
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
     private dataService: ManageLoginService,
+    private dialog:MatDialog
   ) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
@@ -52,6 +58,7 @@ export class LoginComponent implements OnDestroy {
   }
 
   onSubmit() {
+    console.log("onSubmit clicked")
 
     // Implement your login logic here
     if (this.loginForm.valid) {
@@ -76,6 +83,29 @@ export class LoginComponent implements OnDestroy {
         });
       // Add authentication logic and navigate to the next page upon successful login
     }
+  }
+
+  onCreateNewUser() {
+
+    const dialogRef = this.dialog.open(AdduserComponent, {
+      width: '1800px',
+      height: '756px',
+      //data: {name: this.name, animal: this.animal},
+      backdropClass: 'backdropBackground' // This is the "wanted" line
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+
+
+      //const dialogConfig = new MatDialogConfig();
+      //dialogConfig.width = '1800px';
+      //dialogConfig.height = '756px';
+      //dialogConfig.backdropClass = 'popupbackdropclass';
+      //this.dialog.open(AdduserComponent,dialogConfig);
+    //this.adduserComponent.openModal();
+    //console.log("onCreateNewUser clicked")
   }
 
   ngOnDestroy(): void {

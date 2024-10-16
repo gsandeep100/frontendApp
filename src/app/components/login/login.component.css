@@ -50,3 +50,21 @@ button {
   padding: 10px;
   margin: auto;
 }
+
+.backdropBackground {
+  filter: blur(20px);
+  background-color: #caa4a4;
+  opacity: 0.7 !important;
+}
+
+:host {
+  justify-content: center;
+  top: 10em;
+  left: 20em;
+  height: 10em;
+  width: 20em;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  position: unset;
+
+}
