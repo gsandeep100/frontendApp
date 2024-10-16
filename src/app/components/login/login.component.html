@@ -2,7 +2,8 @@
   <form
     [formGroup]="loginForm"
     autocomplete="new-password"
-    class="w-full mx-auto mt-5">
+    class="w-full mx-auto mt-5"
+  >
     <div>
       <h1 class="center">LOGIN</h1>
 
@@ -18,8 +19,10 @@
         />
         <div
           *ngIf="
-        loginForm.get('email')?.invalid &&
-        (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
+            loginForm.get('email')?.invalid &&
+            (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)
+          "
+        >
           <small
             class="text-red-500"
             *ngIf="loginForm.get('email')?.errors?.['required']"
@@ -37,15 +40,19 @@
           type="password"
           autocomplete="new-password"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder="Password"/>
+          placeholder="Password"
+        />
         <div
           *ngIf="
-        loginForm.get('password')?.invalid &&
-        (loginForm.get('password')?.touched ||
-          loginForm.get('password')?.dirty)">
+            loginForm.get('password')?.invalid &&
+            (loginForm.get('password')?.touched ||
+              loginForm.get('password')?.dirty)
+          "
+        >
           <small
             class="text-red-500"
-            *ngIf="loginForm.get('password')?.errors?.['required']">
+            *ngIf="loginForm.get('password')?.errors?.['required']"
+          >
             Password is required.
           </small>
         </div>
@@ -55,12 +62,13 @@
       <div class="hcenter">
         <button type="button" (click)="onSubmit()">Submit</button>
       </div>
-      <div style="margin-bottom:20px"></div>
+      <div style="margin-bottom: 20px"></div>
       <!-- Create new user -->
       <div class="hcenter" routerLink="/cases-tab.component">
-        <button type="submit" (click)="onCreateNewUser()">Create New User</button>
+        <button type="submit" (click)="onCreateNewUser()">
+          Create New User
+        </button>
       </div>
-
 
       <div *ngIf="error !== ''">
         <small class="text-red-500">{{ error }}</small>

@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { LogHttpRequest } from '../../utils/log.decorator';
 import endpoints from '../constants/endpoints';
 import { Cases } from '../models/case';
-import {LogHttpRequest} from '../utils/log.decorator';
 
 @Injectable({
   providedIn: 'root',

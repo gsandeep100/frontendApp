@@ -1,14 +1,19 @@
-import {Component, OnDestroy} from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {CommonModule, NgIf} from "@angular/common";
-import {Subject, takeUntil} from 'rxjs';
-import {ModalComponent} from '../modal/modal.component';
-import {CasesTabComponent} from '../cases-tab/cases-tab.component';
-import {ManageUserService} from '../../../services/manage-user.service';
-import {UserService} from '../../../services/user.service';
-import {Login} from '../../../models/login';
-import {User} from '../../../models/user';
-import {MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Subject, takeUntil } from 'rxjs';
+import { Login } from '../../models/login';
+import { User } from '../../models/user';
+import { ManageUserService } from '../../services/manage-user.service';
+import { UserService } from '../../services/user.service';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'add-user',
@@ -16,15 +21,13 @@ import {MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
   imports: [
     CommonModule,
     ModalComponent,
-    CasesTabComponent,
     FormsModule,
-    ReactiveFormsModule
-  ] , // Import components
+    ReactiveFormsModule,
+  ], // Import components
   templateUrl: './adduser.component.html',
   styleUrl: './adduser.component.css',
 })
-
-export class AdduserComponent implements OnDestroy{
+export class AdduserComponent implements OnDestroy {
   firstname: string = '';
   lastname: string = '';
   email: string = '';
@@ -55,7 +58,7 @@ export class AdduserComponent implements OnDestroy{
         lastname: value.lastname,
         email: value.email,
         password: value.password,
-        role: value.role
+        role: value.role,
       });
       // console.log('Received data:', value);
     });
@@ -63,7 +66,7 @@ export class AdduserComponent implements OnDestroy{
   }
 
   onSubmit() {
-    console.log("onSubmit clicked")
+    console.log('onSubmit clicked');
 
     // Implement your login logic here
     if (this.createUserForm.valid) {
@@ -91,7 +94,7 @@ export class AdduserComponent implements OnDestroy{
   }
 
   Close() {
-    this.dialogRef.close()
+    this.dialogRef.close();
   }
 
   ngOnDestroy(): void {

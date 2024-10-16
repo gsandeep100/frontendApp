@@ -1,41 +1,48 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { CasesService } from '../../../services/cases.service';
-import { DataService } from '../../../services/data.service';
-import { ManageCaseService } from '../../../services/manage-case.service';
+import { Log } from '../../../utils/log.decorator';
+import { Cases } from '../../models/case';
+import { CasesService } from '../../services/cases.service';
+import { DataService } from '../../services/data.service';
+import { ManageCaseService } from '../../services/manage-case.service';
 import { CasesFormComponent } from '../cases-form/cases-form.component';
 import { ModalComponent } from '../modal/modal.component';
-export type Cases = {
-  id: string;
-  title: string;
-  caseNumber: string;
-  description: string;
-  status: string;
-};
 
 @Component({
   standalone: true,
   selector: 'app-cases-list',
-  imports: [CommonModule, ModalComponent, CasesFormComponent],
+  imports: [ModalComponent, CasesFormComponent],
   templateUrl: './cases-list.component.html',
 })
 export class CasesListComponent implements OnInit {
   @ViewChild(ModalComponent) modalComponent!: ModalComponent;
   modalTitle: string = 'Edit Case';
   modalText: string = 'Please edit the case details in the form below.';
-
   isEdit = false;
-  loading = false;
+  loading = true;
+  error = '';
   caseList: Cases[] = [];
-  private destroy$: Subject<void> = new Subject<void>();
+  private destroyList$: Subject<void> = new Subject<void>();
 
   constructor(
     private caseService: CasesService,
     private dataService: ManageCaseService,
     private loadingService: DataService
-  ) {
-    // this.loadCases();
+  ) {}
+
+  ngOnInit(): void {
+    this.error = '';
+    this.loadCases();
+    // Subscribe to refresh notification from the shared service
+    this.loadingService.getRefreshTableObservable().subscribe(() => {
+      this.loadCases();
+      this.closeChildModal();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyList$.next();
+    this.destroyList$.complete();
   }
 
   loadCases() {
@@ -43,40 +50,30 @@ export class CasesListComponent implements OnInit {
     this.caseList = [];
     this.caseService
       .getCases<Cases[]>()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroyList$))
       .subscribe({
         next: (data) => {
-          this.caseList = data;
+          // console.log('Cases loaded:', data);
+          this.caseList = data && data?.length ? data : [];
           this.loading = false;
         },
         error: (error) => {
-          console.log('There was an error!', error);
+          // console.error('Error loading cases:', error);
           this.loading = false;
+          this.error = typeof error === 'string' ? error : error.message;
         },
       });
   }
 
-  ngOnInit(): void {
-    // Initial load
-    this.loadCases();
-    // Subscribe to refresh notification from the shared service
-    this.loadingService.getRefreshTableObservable().subscribe(() => {
-      this.loadCases();
-    });
+  @Log({ inputs: true, outputs: false })
+  openChildModal(type: string, item: Cases) {
+    this.dataService.setData(item); // Set the current case data
+    this.modalComponent.openModal(type, item); // Open the modal with the selected case
+    this.isEdit = type === 'edit'; // Set isEdit based on action type
   }
 
-  // onDelete(id: number) {
-  //   this.http.delete(`your-api-url/cases/${id}`).subscribe(() => {
-  //     this.loadCases();
-  //   });
-  // }
-
-  openChildModal(type: string, item: Cases) {
-    this.dataService.setData(item);
-    this.modalComponent.openModal(type, item); // Open the modal
-    if (type === 'edit') {
-      this.isEdit = true;
-    }
-    // console.log(item);
+  closeChildModal() {
+    this.modalComponent.closeModal(); // Close the modal
+    this.isEdit = false;
   }
 }

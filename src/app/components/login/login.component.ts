@@ -1,16 +1,22 @@
-import {Component, NgModule, OnDestroy, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {CommonModule} from '@angular/common';
-import {ModalComponent} from '../modal/modal.component';
-import {CasesTabComponent} from '../cases-tab/cases-tab.component';
-import {LoginService} from '../../../services/login.service';
-import { ManageLoginService } from '../../../services/manage-login.service';
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { ModalComponent } from '../modal/modal.component';
 
-import {Subject, takeUntil} from 'rxjs';
-import {Login} from '../../../models/login';
-import {AdduserComponent} from '../adduser/adduser.component';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {RouterOutlet} from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { RouterOutlet } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { Login } from '../../models/login';
+import { DataService } from '../../services/data.service';
+import { LoginService } from '../../services/login.service';
+import { ManageLoginService } from '../../services/manage-login.service';
+import { AdduserComponent } from '../adduser/adduser.component';
 
 @Component({
   selector: 'app-login',
@@ -18,17 +24,17 @@ import {RouterOutlet} from '@angular/router';
   imports: [
     CommonModule,
     ModalComponent,
-    CasesTabComponent,
     FormsModule,
     ReactiveFormsModule,
     AdduserComponent,
-    RouterOutlet
+    RouterOutlet,
   ], // Import components
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnDestroy {
-  @ViewChild(AdduserComponent, {static: false}) adduserComponent!: AdduserComponent;
+  @ViewChild(AdduserComponent, { static: false })
+  adduserComponent!: AdduserComponent;
 
   email: string = '';
   password: string = '';
@@ -40,7 +46,8 @@ export class LoginComponent implements OnDestroy {
     private fb: FormBuilder,
     private loginService: LoginService,
     private dataService: ManageLoginService,
-    private dialog:MatDialog
+    private dialog: MatDialog,
+    private loginNotifyService: DataService
   ) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
@@ -50,7 +57,7 @@ export class LoginComponent implements OnDestroy {
       if (!value) return;
       this.loginForm.patchValue({
         title: value.email,
-        caseNumber: value.password
+        caseNumber: value.password,
       });
       // console.log('Received data:', value);
     });
@@ -58,12 +65,11 @@ export class LoginComponent implements OnDestroy {
   }
 
   onSubmit() {
-    console.log("onSubmit clicked")
+    console.log('onSubmit clicked');
 
     // Implement your login logic here
     if (this.loginForm.valid) {
       this.loginValues = this.loginForm.getRawValue();
-
       console.log('Email:', this.loginValues.email);
       console.log('Password:', this.loginValues.password);
       this.loginService
@@ -71,7 +77,10 @@ export class LoginComponent implements OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (data) => {
-            // console.log('Updated case:', data);
+            console.log('Updated case:', data);
+            if (data) {
+              this.loginNotifyService.notifyLoginChange();
+            }
             //this.loading = false;
             //this.notifyService.notifyTableToRefresh();
           },
@@ -86,24 +95,22 @@ export class LoginComponent implements OnDestroy {
   }
 
   onCreateNewUser() {
-
     const dialogRef = this.dialog.open(AdduserComponent, {
       width: '1800px',
       height: '756px',
       //data: {name: this.name, animal: this.animal},
-      backdropClass: 'backdropBackground' // This is the "wanted" line
+      backdropClass: 'backdropBackground', // This is the "wanted" line
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });
 
-
-      //const dialogConfig = new MatDialogConfig();
-      //dialogConfig.width = '1800px';
-      //dialogConfig.height = '756px';
-      //dialogConfig.backdropClass = 'popupbackdropclass';
-      //this.dialog.open(AdduserComponent,dialogConfig);
+    //const dialogConfig = new MatDialogConfig();
+    //dialogConfig.width = '1800px';
+    //dialogConfig.height = '756px';
+    //dialogConfig.backdropClass = 'popupbackdropclass';
+    //this.dialog.open(AdduserComponent,dialogConfig);
     //this.adduserComponent.openModal();
     //console.log("onCreateNewUser clicked")
   }

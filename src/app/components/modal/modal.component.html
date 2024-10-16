@@ -5,12 +5,20 @@
   <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
     <h2 class="text-2xl font-bold mb-4">{{ modalTitle }}</h2>
     <!-- Dynamic Title -->
-    <!-- <p class="mb-6">{{ modalText }}</p> -->
+    <p class="mb-6">{{ modalText }}</p>
+    <div *ngIf="error !== ''">
+      <small class="text-red-500 my-2 block">{{ error }}</small>
+    </div>
     <!-- Dynamic Text -->
     <!-- This will render projected content from the parent component -->
     <div [ngClass]="modalType === 'edit' ? 'block' : 'hidden'">
       <app-cases-form [modalType]="modalType"></app-cases-form>
     </div>
+
+    <div [ngClass]="modalType === 'view' ? 'block' : 'hidden'">
+      <app-view-case></app-view-case>
+    </div>
+
     <!-- Close button -->
     <button
       class="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
@@ -37,7 +45,7 @@
       class="bg-red-500 text-white px-4 py-2 rounded"
       (click)="onDelete()"
       [disabled]="isDeleting"
-      *ngIf="modalType !== 'edit'"
+      *ngIf="modalType === 'delete'"
     >
       {{ isDeleting ? "Deleting..." : "Delete" }}
     </button>
