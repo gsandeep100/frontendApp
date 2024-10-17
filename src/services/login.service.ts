@@ -12,7 +12,7 @@ export class LoginService {
 
   getUserPassword<T>(data: Login) {
 
-    return this.http.post<T>('/login', data).pipe(
+    return this.http.post<T>('/auth/login', data).pipe(
       catchError(this.handleError) // Handle errors here
     );
   }
