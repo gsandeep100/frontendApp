@@ -1,9 +1,9 @@
 <div class="flex items-center gap-2 w-10/12 mx-auto my-4">
   <div class="flex flex-1 items-center gap-1 h-full">
-    <input type="text" class="border border-black p-2 rounded-md flex-1" />
+    <input [(ngModel)]="searchby" type="text" class="border border-black p-2 rounded-md flex-1" />
     <button
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded h-full"
-    >
+      (click)="Search()">
       Search
     </button>
   </div>

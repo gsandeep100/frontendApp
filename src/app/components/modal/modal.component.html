@@ -2,14 +2,13 @@
   [ngClass]="isModalOpen ? 'block' : 'hidden'"
   class="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50"
 >
+  <!-- Dynamic Title -->
   <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
-    <h2 class="text-2xl font-bold mb-4">{{ modalTitle }}</h2>
-    <!-- Dynamic Title -->
-    <p class="mb-6">{{ modalText }}</p>
-    <div *ngIf="error !== ''">
-      <small class="text-red-500 my-2 block">{{ error }}</small>
-    </div>
+    <h2>{{ modalTitle }}</h2>
+
     <!-- Dynamic Text -->
+    <h2>{{ modalText }}</h2>
+
     <!-- This will render projected content from the parent component -->
     <div [ngClass]="modalType === 'edit' ? 'block' : 'hidden'">
       <app-cases-form [modalType]="modalType"></app-cases-form>
@@ -17,6 +16,10 @@
 
     <div [ngClass]="modalType === 'view' ? 'block' : 'hidden'">
       <app-view-case></app-view-case>
+    </div>
+
+    <div [ngClass]="modalType === 'registration'? 'block' : 'hidden'">
+      <add-user></add-user>
     </div>
 
     <!-- Close button -->
@@ -49,5 +52,8 @@
     >
       {{ isDeleting ? "Deleting..." : "Delete" }}
     </button>
+  </div>
+  <div *ngIf="error !== ''">
+    <small class="text-red-500 my-2 block">{{ error }}</small>
   </div>
 </div>

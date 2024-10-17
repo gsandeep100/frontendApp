@@ -7,26 +7,26 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { Login } from '../../models/login';
 import { User } from '../../models/user';
 import { ManageUserService } from '../../services/manage-user.service';
 import { UserService } from '../../services/user.service';
-import { ModalComponent } from '../modal/modal.component';
+import {RouterOutlet} from '@angular/router';
+import {DataService} from '../../services/data.service';
 
 @Component({
   selector: 'add-user',
   standalone: true,
   imports: [
     CommonModule,
-    ModalComponent,
     FormsModule,
     ReactiveFormsModule,
+    RouterOutlet,
   ], // Import components
   templateUrl: './adduser.component.html',
-  styleUrl: './adduser.component.css',
 })
+
 export class AdduserComponent implements OnDestroy {
   firstname: string = '';
   lastname: string = '';
@@ -42,7 +42,7 @@ export class AdduserComponent implements OnDestroy {
     private fb: FormBuilder,
     private userService: UserService,
     private dataService: ManageUserService,
-    private dialogRef: MatDialogRef<AdduserComponent>
+    private notifyService: DataService
   ) {
     this.createUserForm = this.fb.group({
       firstname: ['', Validators.required],
@@ -60,9 +60,14 @@ export class AdduserComponent implements OnDestroy {
         password: value.password,
         role: value.role,
       });
-      // console.log('Received data:', value);
     });
-    // Initialize FormGroup in the constructor
+  }
+
+  ngOnInit() {
+  }
+
+  openModal(type: string) {
+    this.error = '';
   }
 
   onSubmit() {
@@ -79,22 +84,15 @@ export class AdduserComponent implements OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (data) => {
-            // console.log('Updated case:', data);
-            //this.loading = false;
-            //this.notifyService.notifyTableToRefresh();
+            this.notifyService.notifyRegistrationChange();
+            this.error = '';
           },
           error: (error) => {
             console.log('There was an error!', error);
-            //this.loading = false;
             this.error = typeof error === 'string' ? error : error.message;
           },
         });
-      // Add authentication logic and navigate to the next page upon successful login
     }
-  }
-
-  Close() {
-    this.dialogRef.close();
   }
 
   ngOnDestroy(): void {

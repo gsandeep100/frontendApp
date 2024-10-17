@@ -1,11 +1,12 @@
-import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
-import { Cases } from '../../models/case';
-import { DataService } from '../../services/data.service';
-import { CasesFormComponent } from '../cases-form/cases-form.component';
-import { CasesListComponent } from '../cases-list/cases-list.component';
-import { ModalComponent } from '../modal/modal.component';
+import {CommonModule} from '@angular/common';
+import {Component, ViewChild} from '@angular/core';
+import {Cases} from '../../models/case';
+import {DataService} from '../../services/data.service';
+import {CasesFormComponent} from '../cases-form/cases-form.component';
+import {CasesListComponent} from '../cases-list/cases-list.component';
+import {ModalComponent} from '../modal/modal.component';
 import {LoginComponent} from '../login/login.component';
+import {AdduserComponent} from '../adduser/adduser.component';
 
 @Component({
   selector: 'app-cases-tab',
@@ -15,7 +16,8 @@ import {LoginComponent} from '../login/login.component';
     CasesListComponent,
     CasesFormComponent,
     ModalComponent,
-    LoginComponent
+    LoginComponent,
+    AdduserComponent,
   ],
   templateUrl: './cases-tab.component.html',
 })
@@ -30,7 +32,8 @@ export class CasesTabComponent {
 
   isLogin: boolean = false;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService) {
+  }
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
@@ -44,6 +47,7 @@ export class CasesTabComponent {
     this.dataService.getLoginChangeObservable().subscribe(() => {
       this.setIslLogin();
     });
+
     this.isLogin = false;
   }
 
