@@ -7,11 +7,13 @@ import { DataService } from '../../services/data.service';
 import { ManageCaseService } from '../../services/manage-case.service';
 import { CasesFormComponent } from '../cases-form/cases-form.component';
 import { ModalComponent } from '../modal/modal.component';
+import {SearchService} from '../../services/search.service';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'app-cases-list',
-  imports: [ModalComponent, CasesFormComponent],
+  imports: [ModalComponent, CasesFormComponent, FormsModule],
   templateUrl: './cases-list.component.html',
 })
 export class CasesListComponent implements OnInit {
@@ -23,9 +25,11 @@ export class CasesListComponent implements OnInit {
   error = '';
   caseList: Cases[] = [];
   private destroyList$: Subject<void> = new Subject<void>();
+  searchby = '';
 
   constructor(
     private caseService: CasesService,
+    private searchService: SearchService,
     private dataService: ManageCaseService,
     private loadingService: DataService
   ) {}
@@ -66,6 +70,54 @@ export class CasesListComponent implements OnInit {
   }
 
   Search() {
+    if(this.searchby === 'id') {
+      this.searchService
+        .getById<Cases[]>(this.searchby)
+        .pipe(takeUntil(this.destroyList$))
+        .subscribe({
+          next: (data) => {
+            // console.log('Cases loaded:', data);
+            this.caseList = data && data?.length ? data : [];
+            this.loading = false;
+          },
+          error: (error) => {
+            // console.error('Error loading cases:', error);
+            this.loading = false;
+            this.error = typeof error === 'string' ? error : error.message;
+          },
+        });
+    }
+    else if(this.searchby === 'caseNumber') {
+      this.searchService
+        .getByCaseNumber<Cases[]>(this.searchby)
+        .pipe(takeUntil(this.destroyList$))
+        .subscribe({
+          next: (data) => {
+            this.caseList = data && data?.length ? data : [];
+            this.loading = false;
+          },
+          error: (error) => {
+            this.loading = false;
+            this.error = typeof error === 'string' ? error : error.message;
+          },
+        });
+    }
+    else if(this.searchby === 'description') {
+      this.searchService
+        .getByCaseDescription<Cases[]>(this.searchby)
+        .pipe(takeUntil(this.destroyList$))
+        .subscribe({
+          next: (data) => {
+            this.caseList = data && data?.length ? data : [];
+            this.loading = false;
+          },
+          error: (error) => {
+            // console.error('Error loading cases:', error);
+            this.loading = false;
+            this.error = typeof error === 'string' ? error : error.message;
+          },
+        });
+    }
 
   }
   @Log({ inputs: true, outputs: false })
