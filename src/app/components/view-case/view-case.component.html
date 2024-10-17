@@ -1,21 +1,19 @@
-<div class="div">
-  <table>
-    <tr>
-      <th><h3 class="text-lg font-semibold mb-2">Case Number</h3></th>
-      <th><h2 class="text-xl font-bold">{{ selectedCase?.caseNumber }}</h2></th>
-    </tr>
-    <tr>
-      <th><h3 class="text-lg font-semibold mb-2">Title</h3></th>
-      <th><h2 class="text-xl font-bold">{{ selectedCase?.title }}</h2></th>
-    </tr>
-    <tr>
-      <th><h3 class="text-lg font-semibold mb-2">Status</h3></th>
-      <th><h2 class="text-xl font-bold">{{ selectedCase?.status }}</h2></th>
-    </tr>
-    <tr>
-      <th><h3 class="text-lg font-semibold mb-2">Description</h3></th>
-      <th><h2 class="text-xl font-bold">{{ selectedCase?.description }}</h2></th>
-    </tr>
-  </table>
-</div>
+<table style="width:100%">
+  <tr>
+    <th>Case Number:</th>
+    <td>{{ selectedCase?.caseNumber }}</td>
+  </tr>
+  <tr>
+    <th>Title:</th>
+    <td>{{ selectedCase?.title }}</td>
+  </tr>
+  <tr>
+    <th>Status:</th>
+    <td>{{ selectedCase?.status }}</td>
+  </tr>
+  <tr>
+    <th>Description:</th>
+    <td>{{ selectedCase?.description }}</td>
+  </tr>
+</table>
 

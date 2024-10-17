@@ -65,6 +65,9 @@ export class CasesListComponent implements OnInit {
       });
   }
 
+  Search() {
+
+  }
   @Log({ inputs: true, outputs: false })
   openChildModal(type: string, item: Cases) {
     this.dataService.setData(item); // Set the current case data
